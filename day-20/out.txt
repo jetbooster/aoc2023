@@ -1,0 +1,120 @@
+{
+  broadcaster: {
+    type: 'Broadcaster',
+    name: 'broadcaster',
+    inputs: [],
+    outputs: [ 'a', 'b', 'c' ]
+  },
+  a: {
+    type: 'FlipFlop',
+    name: 'a',
+    inputs: [ 'broadcaster', 'inv' ],
+    outputs: [ 'b' ],
+    state: false
+  },
+  b: {
+    type: 'FlipFlop',
+    name: 'b',
+    inputs: [ 'broadcaster', 'a' ],
+    outputs: [ 'c' ],
+    state: false
+  },
+  c: {
+    type: 'FlipFlop',
+    name: 'c',
+    inputs: [ 'broadcaster', 'b' ],
+    outputs: [ 'inv' ],
+    state: false
+  },
+  inv: {
+    type: 'Conjunction',
+    name: 'inv',
+    inputs: [ 'c' ],
+    outputs: [ 'a' ],
+    inputSignals: { c: 'low' }
+  }
+}
+{ source: 'button', destination: 'broadcaster', type: 'low' } {
+  type: 'Broadcaster',
+  name: 'broadcaster',
+  inputs: [],
+  outputs: [ 'a', 'b', 'c' ]
+}
+{ source: 'broadcaster', destination: 'a', type: 'low' } {
+  type: 'FlipFlop',
+  name: 'a',
+  inputs: [ 'broadcaster', 'inv' ],
+  outputs: [ 'b' ],
+  state: false
+}
+{ source: 'broadcaster', destination: 'b', type: 'low' } {
+  type: 'FlipFlop',
+  name: 'b',
+  inputs: [ 'broadcaster', 'a' ],
+  outputs: [ 'c' ],
+  state: false
+}
+{ source: 'broadcaster', destination: 'c', type: 'low' } {
+  type: 'FlipFlop',
+  name: 'c',
+  inputs: [ 'broadcaster', 'b' ],
+  outputs: [ 'inv' ],
+  state: false
+}
+{ source: 'a', destination: 'b', type: 'high' } {
+  type: 'FlipFlop',
+  name: 'b',
+  inputs: [ 'broadcaster', 'a' ],
+  outputs: [ 'c' ],
+  state: true
+}
+{ source: 'b', destination: 'c', type: 'high' } {
+  type: 'FlipFlop',
+  name: 'c',
+  inputs: [ 'broadcaster', 'b' ],
+  outputs: [ 'inv' ],
+  state: true
+}
+{ source: 'c', destination: 'inv', type: 'high' } {
+  type: 'Conjunction',
+  name: 'inv',
+  inputs: [ 'c' ],
+  outputs: [ 'a' ],
+  inputSignals: { c: 'low' }
+}
+{ source: 'inv', destination: 'a', type: 'low' } {
+  type: 'FlipFlop',
+  name: 'a',
+  inputs: [ 'broadcaster', 'inv' ],
+  outputs: [ 'b' ],
+  state: true
+}
+{ source: 'a', destination: 'b', type: 'low' } {
+  type: 'FlipFlop',
+  name: 'b',
+  inputs: [ 'broadcaster', 'a' ],
+  outputs: [ 'c' ],
+  state: true
+}
+{ source: 'b', destination: 'c', type: 'low' } {
+  type: 'FlipFlop',
+  name: 'c',
+  inputs: [ 'broadcaster', 'b' ],
+  outputs: [ 'inv' ],
+  state: true
+}
+{ source: 'c', destination: 'inv', type: 'low' } {
+  type: 'Conjunction',
+  name: 'inv',
+  inputs: [ 'c' ],
+  outputs: [ 'a' ],
+  inputSignals: { c: 'high' }
+}
+{ source: 'inv', destination: 'a', type: 'high' } {
+  type: 'FlipFlop',
+  name: 'a',
+  inputs: [ 'broadcaster', 'inv' ],
+  outputs: [ 'b' ],
+  state: false
+}
+{ highSignalsSent: 4, lowSignalsSent: 7 }
